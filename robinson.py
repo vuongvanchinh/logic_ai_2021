@@ -78,5 +78,47 @@ def ronbinson(g , h = None):
 
     return False
 
+def factory(a, b, operator):
+    if a == b: return a
 
+    if operator == '+':
+        return Or(b, a)
+    elif operator == '*':
+        return And(b ,a)
+    elif operator == '>':
+        return Deduce(b, a)
+
+def parse(s):
+    """
+    Tra ve 1 bieu thuc:
+    '+' = or, '*' = and, '>' = =>
+    """
+    operator = []
+    o = 0
+    operand = []
+    for i in range(len(s)):
+        if s[i] == '(':
+            o += 1
+        elif s[i] == ')':
+            if o == 0:
+                raise Exception("Invalid syntax")
+            o -= 1
+            if len(operator) == 0:
+                break
+            t = operator.pop()
+            if t == '-':
+                operand.append(operand.pop().negate())
+            else:
+                operand.append(factory(operand.pop(), operand.pop(), t))
+        elif s[i] in ('+', '-', '*', '>'):
+            operator.append(s[i])
+        elif s[i] != ' ':# A, B, C
+            operand.append(Expression(s[i]))
     
+    if o != 0 or len(operand) != 1:
+        raise Exception("Invalid Expession: ")
+    return operand.pop()
+
+expression = "(A+B)>(C*D)"
+expression = f'({expression})' # meansure expression is wrapped
+print(parse(expression))
