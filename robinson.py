@@ -87,11 +87,13 @@ def factory(a, b, operator):
         return And(b ,a)
     elif operator == '>':
         return Deduce(b, a)
+    elif operator == '_':
+        return Equivalent(a, b)
 
 def parse(s):
     """
     Tra ve 1 bieu thuc:
-    '+' = or, '*' = and, '>' = =>
+    '+' = or, '*' = and, '>' = =>, '_' = '<=>'
     """
     operator = []
     o = 0
@@ -110,7 +112,7 @@ def parse(s):
                 operand.append(operand.pop().negate())
             else:
                 operand.append(factory(operand.pop(), operand.pop(), t))
-        elif s[i] in ('+', '-', '*', '>'):
+        elif s[i] in ('+', '-', '*', '>', '_'):
             operator.append(s[i])
         elif s[i] != ' ':# A, B, C
             operand.append(Expression(s[i]))
@@ -119,6 +121,3 @@ def parse(s):
         raise Exception("Invalid Expession: ")
     return operand.pop()
 
-expression = "(A+B)>(C*D)"
-expression = f'({expression})' # meansure expression is wrapped
-print(parse(expression))

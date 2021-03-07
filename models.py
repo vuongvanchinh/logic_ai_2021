@@ -165,28 +165,24 @@ class Or(ComplexExpression):
             return o.resolution(self)
 
         elif o.__class__ == Or:
-            i = 0
+            
             l = deepcopy(self.items)
             s = deepcopy(o.items)
-            flag = False
-            while i < len(l):
-                t = l[i].negate()
+            for x in l:
+                t = x.negate()
                 if t in s:
-                    l.remove(l[i])
+                    l.remove(x)
                     s.remove(t)
-                    flag = True      
-                else:
-                    i += 1
-            if flag:
-                k = len(l) + len(s)
-                if k == 1:
-                    if len(s) == 1:
-                        return l[0]
-                    else: return l[0]
-                elif k == 0:
-                    return Expression("NULL")
-                    
-                return Or(*l, *s)
+                    k = len(l) + len(s)
+                    if k == 1:
+                        if len(s) == 1:
+                            return s[0]
+                        else: return l[0]
+                    elif k == 0:
+                        return Expression("NULL")
+                    if(len(l) == len(s)== 1 and l[0].negate() == s[0]):
+                        return None
+                    return Or(*l, *s)                       
         return None
 
 class  Deduce(ComplexExpression):
@@ -268,7 +264,3 @@ class Equivalent(ComplexExpression):
     def isStandard(self):
         return False
 
-"""
-a_e_b = Equivalent(p, q)
-b_e_c = Equivalent(b, e)
-"""

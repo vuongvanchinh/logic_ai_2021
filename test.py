@@ -1,5 +1,5 @@
 from models import Expression, And, Or, Deduce, Equivalent
-from robinson import ronbinson
+from robinson import ronbinson, parse
 from collections import namedtuple
 
 a = Expression("A")
@@ -30,6 +30,8 @@ de = And(d, e)
 ab = And(a, b)
 avcb = Or(cd, bc) # (c or d) and (c or d)
 rvns = Or(r, s.negate())
+a_e_b = Equivalent(a, b)
+b_e_c = Equivalent(b, c)
 
 Test = namedtuple("Test", "g,h")
 
@@ -47,10 +49,15 @@ test4 = Test([Deduce(ab, c),Deduce(bc, d)], Deduce(ab, d))
 
 # g = (A => B), (B => C), (C => D), C ||| h = D or (A and B) expect: True 
 test5 = Test([Deduce(a, b), Deduce(b, c), Deduce(c, d), c], Or(d, ab))
+#
+# test6 = Test([a_e_b, b_e_c, b], And(a, c))
+expression = "(A+B)>(C*D)"
+expression = f'({expression})' # meansure expression is wrapped
 
 if __name__ == "__main__":    
-    rs = ronbinson(test5.g, test5.h)
+    rs = ronbinson(test4.g, test4.h)
     print(rs)
-    # t = Or(a, ab).standard()
-    # for x in t:
-    #     print(x)
+    express = parse(expression)
+    print(express)
+
+
