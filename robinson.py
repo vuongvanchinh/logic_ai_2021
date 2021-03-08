@@ -88,7 +88,7 @@ def factory(a, b, operator):
     elif operator == '>':
         return Deduce(b, a)
     elif operator == '_':
-        return Equivalent(a, b)
+        return Equivalent(b, a)
 
 def parse(s):
     """

@@ -51,13 +51,13 @@ test4 = Test([Deduce(ab, c),Deduce(bc, d)], Deduce(ab, d))
 test5 = Test([Deduce(a, b), Deduce(b, c), Deduce(c, d), c], Or(d, ab))
 #
 # test6 = Test([a_e_b, b_e_c, b], And(a, c))
-expression = "(A+B)>(C*D)"
-expression = f'({expression})' # meansure expression is wrapped
+# expression = "(((A+B)>(C*D))*A)_C"
+# expression = f'({expression})' # meansure expression is wrapped
 
 if __name__ == "__main__":    
-    rs = ronbinson(test4.g, test4.h)
+    rs = ronbinson(test1.g, test1.h)
     print(rs)
-    express = parse(expression)
-    print(express)
+    # express = parse(expression)
+    # print(express)
 
 
