@@ -6,17 +6,18 @@ def robinson_extend(gt, kl):
     gt = map(lambda x: x.strip(), gt.split(','))
     g = [parse(x) for x in gt]
     h = parse(kl)
-    show(g, "G after parse: ")
-    print("h after parse: ", h)
+    show(g, "G sau khi phan tich tu chuoi: ")
+    print("h sau khi phan tich tu chuoi: ", h)
     return ronbinson(g, h)
 
-
+"""
+(-A or B), (-B or C), B, D, (-C or -D) 
+"""
 if __name__ == "__main__":    
-    g = "(A>B), (B>C), (A*D)"
-    h = "(C*D)"
-    rs = robinson_extend(g, h)
+    gt = "(A>B), (B>C), (A*D)"
+    kl = "(C*D)"
+    rs = robinson_extend(gt, kl)
     print(rs)
-
 # a = Expression('A')
 # b = Expression('B')
 # a_or_b = Or(a, b)

@@ -35,8 +35,8 @@ class Expression:
                 
                 if len(l) == 1:
                     return l[0]
-                elif len(l) == 0:
-                    return Expression("NULL")
+                # elif len(l) == 0:
+                #     return Expression("NULL")
                 else:
                     return Or(*l)
         return None    
@@ -108,6 +108,7 @@ class Or(ComplexExpression):
             elif x not in self.items:
                 self.items.append(x)
         if len(self.items) < 2:
+            print(self.items[0])
             raise Exception("Or must have 2 or more unique arguments.")
 
     def evaluate(self):
@@ -167,22 +168,19 @@ class Or(ComplexExpression):
         elif o.__class__ == Or:
             
             l = deepcopy(self.items)
-            s = deepcopy(o.items)
             for x in l:
                 t = x.negate()
-                if t in s:
+                if t in o.items:
                     l.remove(x)
-                    s.remove(t)
-                    k = len(l) + len(s)
-                    if k == 1:
-                        if len(s) == 1:
-                            return s[0]
-                        else: return l[0]
-                    elif k == 0:
+                    
+                    for i in o.items:
+                        if i != t and i not in l:
+                            l.append(i)
+                    if len(l) == 0:
                         return Expression("NULL")
-                    if(len(l) == len(s)== 1 and l[0].negate() == s[0]):
-                        return None
-                    return Or(*l, *s)                       
+                    if len(l) == 1:
+                        return l[0]
+                    return Or(*l)                       
         return None
 
 class  Deduce(ComplexExpression):

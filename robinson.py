@@ -8,12 +8,17 @@ def resolutions_util(g):
         tra ve ket qua phan giai va vi tri hai toans hang neu ton tai cap co the phan giai
         tra ve None neu khong phan giai duoc nua
     """
+    rs = []
     l = len(g)
     for i in range(l - 1):
         for j in range(i+ 1, l):
             t = g[i].resolution(g[j])
-            if t != None:
+            if t == NULL_EXPRESSION:
                 return t, i, j
+            elif t != None:
+                rs.append((t, i, j))
+    if len(rs) != 0:
+        return rs[0]            
     return None # khong phan giai duoc nua
 
 def standard(g = []):
@@ -48,7 +53,7 @@ def ronbinson(g , h = None):
 
     show(g, "G sau khi them phu h: ")
     g = standard(g)
-    show(g, "G after standard: ")
+    show(g, "G sau khi duwa ve dang chuan: ")
 
     while len(g) != 0:
         t = resolutions_util(g)

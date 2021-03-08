@@ -55,8 +55,11 @@ test5 = Test([Deduce(a, b), Deduce(b, c), Deduce(c, d), c], Or(d, ab))
 # expression = f'({expression})' # meansure expression is wrapped
 
 if __name__ == "__main__":    
-    rs = ronbinson(test1.g, test1.h)
+    rs = ronbinson(test5.g, test5.h)
     print(rs)
+    t = Or(d.negate(), c.negate()).resolution(Or(b.negate(), c))
+    print(t)
+    print(t)
     # express = parse(expression)
     # print(express)
 
